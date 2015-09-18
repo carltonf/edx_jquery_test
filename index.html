@@ -40,10 +40,25 @@
       <div class="rating-circle"></div>
     </div>
 
-    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
 
     <script>
-     // your answer would go here
+     var rcContainer = $('#rating-container'),
+         rCircles = rcContainer.children(),
+         ratingCircles = $(null); // rating score can be easily computed
+
+     rcContainer.on('mouseenter', '.rating-circle', function(e){
+       ratingCircles.removeClass('rating-chosen');
+       $(e.target).prevAll().addBack().addClass('rating-hover')
+     });
+     rcContainer.on('mouseleave', '.rating-circle', function(){
+       rCircles.removeClass('rating-hover');
+       ratingCircles.addClass('rating-chosen');
+     });
+
+     rcContainer.on('click', '.rating-circle', function(e){
+       ratingCircles = $(e.target).prevAll().addBack().addClass('rating-chosen');
+     });
     </script>
   </body>
 </html>
