@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mocha Tests</title>
+    <link href="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.css" rel="stylesheet" />
+  </head>
+  <body>
+    <iframe id="testpage"></iframe>
+
+    <div id="mocha"></div>
+
+    <script src="https://cdn.rawgit.com/jquery/jquery/2.1.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/Automattic/expect.js/0.3.1/index.js"></script>
+    <script src="https://cdn.rawgit.com/mochajs/mocha/2.2.5/mocha.js"></script>
+
+    <script>
+     mocha.setup('bdd');
+    </script>
+    <!-- You test scripts here -->
+    <script src="test.js"></script>
+
+    <script>
+     /* mocha.checkLeaks();
+        mocha.globals([]);
+      */
+     /* note: if src is defined in iframe element, it might NOT reload when the
+     callee page reloads, and thus no load event on the frame. Also it's always
+     async. */
+     frames['testpage'].src = "../index.html";
+
+     frames['testpage'].onload = function(){
+       mocha.run();
+     };
+    </script>
+  </body>
+</html>
