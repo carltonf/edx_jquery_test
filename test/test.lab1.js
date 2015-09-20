@@ -26,64 +26,54 @@ before(function(){
     //   assert.equal(response.status, 200);
     //   done();
     // });
-  });  
+  });
 });
 
 beforeEach(function(){
   return browser.visit(lab1URL).then(function(){
     browser.assert.className('.rating-circle', 'rating-circle',
-                            'default status should have no circles highlighted');  
+                            'default status should have no circles highlighted');
   });
 })
 
 
 describe('Lab1 Testing: ', function() {
-  // TODO the fancy CSS selectors are nice to write, but the failure report is
-  // not very helpful. I think using some loop and test generation would produce
-  // better report.
+  // NOTE fancy CSS selectors are nice to write, but the failure report might
+  // not be very helpful. Be more verbose when writing such tests.
   var numOfCircles = 5,
+      circleCSS = '.rating-circle',
+      vanillaCircleCSS = circleCSS + ':not(.rating-chosen):not(.rating-hover)',
+      chosenCircleCSS = circleCSS + '.rating-chosen',
+      hoverCircleCSS = circleCSS + '.rating-hover',
       click = (nth) => `$($('.rating-circle').get(${nth} - 1)).click();`,
       mouseenter = (nth) => `$($('.rating-circle').get(${nth} - 1)).mouseenter();`,
       mouseleave = (nth) => `$($('.rating-circle').get(${nth} - 1)).mouseleave();`,
       selFirstCircles = (nth) => `.rating-circle:nth-child(-n + ${nth})`,
-      selLastCircles = (nth) => `.rating-circle:nth-child(n + ${5 - nth + 1})`;
+      selLastCircles = (nth) => `.rating-circle:nth-child(n + ${numOfCircles - nth + 1})`;
 
   describe("click", function(){
     describe("simple click should work", function(){
       // NOTE: make sure the click order is not sequential.
-      it("click on the 1st circle should ONLY have the first circle chosen", function(){
-
-        browser.assert.evaluate(click(1));
-        browser.assert.hasClass(selFirstCircles(1), 'rating-chosen');
-        browser.assert.hasNoClass(selLastCircles(4), 'rating-chosen');
-      });
-      it("click on the 5th circle should ONLY have all circles chosen", function(){
-        browser.assert.evaluate(click(5));
-        browser.assert.className('.rating-circle', 'rating-circle rating-chosen');
-      });
-      it("click on the 3rd circle should ONLY have the first 3 circles chosen", function(){
-        browser.assert.evaluate(click(3));
-        browser.assert.hasClass(selFirstCircles(3), 'rating-chosen');
-        browser.assert.hasNoClass(selLastCircles(2), 'rating-chosen');
+      [1, 5, 3].forEach(i => {
+        it(`click on the ${i}-th circle should ONLY have the first ${i} circle(s) chosen`, function(){
+          browser.assert.evaluate(click(i));
+          // NOTE: I'm using counting here, not so strict as first/last, but
+          // it's fun to use it ;P
+          browser.assert.elements(chosenCircleCSS, i);
+          browser.assert.elements(vanillaCircleCSS, numOfCircles - i);
+        });
       });
     });
   });
 
   describe('hover:mouseenter', function(){
     describe("simple mouseenter should be highlighted correctly", function(){
-      it('mouse over the 1st circle should ONLY have the first circle highlighted', function(){
-        browser.assert.evaluate(mouseenter(1));
-        browser.assert.hasClass(selFirstCircles(1), 'rating-hover');
-        browser.assert.hasNoClass(selLastCircles(4), 'rating-hover');
-      });
-      it('mouse over the 5th circle should ONLY have all circles highlighted', function(){
-        browser.assert.evaluate(mouseenter(5));
-        browser.assert.hasClass(selFirstCircles(5), 'rating-hover');
-      });
-      it('mouse over the 3rd circle should ONLY have the first 3 circles highlighted', function(){
-        browser.assert.evaluate(mouseenter(3));
-        browser.assert.hasClass(selFirstCircles(3), 'rating-hover');
-        browser.assert.hasNoClass(selLastCircles(2), 'rating-hover');
+      [1, 5, 3].forEach(i => {
+        it(`mouse over the ${i}-th circle should ONLY have the ${i} circle(s) highlighted`, function(){
+          browser.assert.evaluate(mouseenter(i));
+          browser.assert.className(selFirstCircles(i), 'rating-circle rating-hover');
+          browser.assert.elements(vanillaCircleCSS, numOfCircles - i);
+        });
       });
     });
 
@@ -92,20 +82,13 @@ describe('Lab1 Testing: ', function() {
         browser.assert.evaluate(click(3));
       });
 
-      it('mouse over the 2nd circle should ONLY have the first 2 circles highlighted', function(){
-        browser.assert.evaluate(mouseenter(2));
-        browser.assert.hasClass(selFirstCircles(2), 'rating-hover');
-        browser.assert.hasNoClass(selLastCircles(3), 'rating-hover');
-      });
-      it('mouse over the 3rd circle should ONLY have the first 3 circles highlighted', function(){
-        browser.assert.evaluate(mouseenter(3));
-        browser.assert.hasClass(selFirstCircles(3), 'rating-hover');
-        browser.assert.hasNoClass(selLastCircles(2), 'rating-hover');
-      });
-      it('mouse over the 4th circle should ONLY have all circles highlighted', function(){
-        browser.assert.evaluate(mouseenter(4));
-        browser.assert.hasClass(selFirstCircles(4), 'rating-hover');
-        browser.assert.hasNoClass(selLastCircles(1), 'rating-hover');
+      [4, 3, 2].forEach(i => {
+        it(`mouse etner the ${i}-th circle should ONLY have the first ${i} circle(s) highlighted`,
+           function(){
+             browser.assert.evaluate(mouseenter(i));
+             browser.assert.className(selFirstCircles(i), 'rating-circle rating-hover');
+             browser.assert.elements(vanillaCircleCSS, numOfCircles - i);
+           });
       });
     });
   });
@@ -126,7 +109,7 @@ describe('Lab1 Testing: ', function() {
         browser.assert.evaluate(click(3));
       });
 
-      [2, 3, 4].forEach(i => {
+      [3, 2, 4].forEach(i => {
         it(`mouse leave the ${i}-th circle should restore chosen highlighting`, function(){
           browser.assert.evaluate(mouseenter(i));
           browser.assert.evaluate(mouseleave(i));
