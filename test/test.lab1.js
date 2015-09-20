@@ -8,27 +8,15 @@ Browser.localhost('localhost', 8080);
 
 const browser = new Browser();
 
-// TODO common part, should be factored out
-describe('Page accessibility: ', function() {
-
-  before(function() {
-    // visit is async, and return a Promise.
-    return browser.visit(lab1URL);
-  });
-
-  it('should be successful', function() {
-    browser.assert.success();
-  });
-
-  it('should see the title', function() {
-    browser.assert.text('h1', 'Contoso Web Developer Conference');
-  });
-
-  it('jQuery should load successfully', function(){
-    browser.assert.evaluate('jQuery.fn.jquery', '2.1.4');
-  });
-
-  it('all resources should load successfully, particularly lab1 answer code', function(){
+before(function(){
+  // ensure page accessibility.
+  return browser.visit(lab1URL).then(function(){
+    browser.assert.success('should be successful');
+    browser.assert.text('h1', 'Contoso Web Developer Conference',
+                       'should see the title');
+    browser.assert.evaluate('jQuery.fn.jquery', '2.1.4',
+                           'jQuery should load successfully');
+    // all resources should load successfully, particularly lab1 answer code
     browser.resources.forEach(resource => {
       assert.equal(resource.response.status, 200, resource.response.url);
     });
@@ -38,12 +26,15 @@ describe('Page accessibility: ', function() {
     //   assert.equal(response.status, 200);
     //   done();
     // });
-  });
-
-  it('default status should have no circles highlighted', function(){
-    browser.assert.className('.rating-circle', 'rating-circle');
-  });
+  });  
 });
+
+beforeEach(function(){
+  return browser.visit(lab1URL).then(function(){
+    browser.assert.className('.rating-circle', 'rating-circle',
+                            'default status should have no circles highlighted');  
+  });
+})
 
 
 describe('Lab1 Testing: ', function() {
@@ -56,10 +47,6 @@ describe('Lab1 Testing: ', function() {
       mouseleave = (nth) => `$($('.rating-circle').get(${nth} - 1)).mouseleave();`,
       selFirstCircles = (nth) => `.rating-circle:nth-child(-n + ${nth})`,
       selLastCircles = (nth) => `.rating-circle:nth-child(n + ${5 - nth + 1})`;
-
-  beforeEach(function(){
-    return browser.visit(lab1URL);
-  });
 
   describe("click", function(){
     describe("simple click should work", function(){
