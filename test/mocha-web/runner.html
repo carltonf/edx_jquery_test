@@ -26,7 +26,7 @@
      /* note: if src is defined in iframe element, it might NOT reload when the
      callee page reloads, and thus no load event on the frame. Also it's always
      async. */
-     frames['testpage'].src = "../index.html";
+     frames['testpage'].src = "/index.html";
 
      frames['testpage'].onload = function(){
        mocha.run();
