@@ -1,13 +1,16 @@
 const Browser = require('zombie');
+const assert = require('assert');
+
 const lab1URL = '/labs/lab1.html';
+const lab1AnsURL = 'labs/lab1.js';
 
 Browser.localhost('localhost', 8080);
 
-describe('Lab1 page testing: ', function() {
+describe('Lab1 Testing: ', function() {
 
   const browser = new Browser();
 
-
+  // TODO common part, should be factored out
   describe('Access the lab1 page: ', function() {
     before(function() {
       return browser.visit(lab1URL);
@@ -23,6 +26,22 @@ describe('Lab1 page testing: ', function() {
 
     it('default status should have no circles highlighted', function(){
       browser.assert.className('.rating-circle', 'rating-circle');
+    });
+
+    it('jQuery should load successfully', function(){
+      browser.assert.evaluate('jQuery.fn.jquery', '2.1.4');
+    });
+
+    it('all resources should load successfully, particularly lab1 answer code', function(){
+      browser.resources.forEach(resource => {
+        assert.equal(resource.response.status, 200, resource.response.url);
+      });
+      //// specificially fetch again.
+      //
+      // browser.fetch(lab1AnsURL).then(function(response){
+      //   assert.equal(response.status, 200);
+      //   done();
+      // });
     });
   });
 

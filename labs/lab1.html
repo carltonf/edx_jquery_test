@@ -40,26 +40,13 @@
       <div class="rating-circle"></div>
     </div>
 
+    <!-- NOTE use a local copy for faster testing -->
     <!-- <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script> -->
     <script src="/libs/vendor/jquery-2.1.4.min.js"></script>
 
-    <script>
-     var rcContainer = $('#rating-container'),
-         rCircles = rcContainer.children(),
-         ratingCircles = $(null); // rating score can be easily computed
-
-     rcContainer.on('mouseenter', '.rating-circle', function(e){
-       ratingCircles.removeClass('rating-chosen');
-       $(e.target).prevAll().addBack().addClass('rating-hover')
-     });
-     rcContainer.on('mouseleave', '.rating-circle', function(){
-       rCircles.removeClass('rating-hover');
-       ratingCircles.addClass('rating-chosen');
-     });
-
-     rcContainer.on('click', '.rating-circle', function(e){
-       ratingCircles = $(e.target).prevAll().addBack().addClass('rating-chosen');
-     });
+    <!-- NOTE put your answers in a separate lab1.js file -->
+    <script src="lab1.js">
+     // your answer would go here
     </script>
   </body>
 </html>
