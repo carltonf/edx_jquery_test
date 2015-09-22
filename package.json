@@ -13,6 +13,7 @@
   "author": "Carl Xiong",
   "license": "MIT",
   "devDependencies": {
+    "mocha": "^2.3.2",
     "zombie": "^4.1.0"
   }
 }
