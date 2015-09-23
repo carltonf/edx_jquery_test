@@ -7,7 +7,7 @@
     "labs": "labs"
   },
   "scripts": {
-    "serve": "http-server -c-1",
+    "start": "http-server -c-1",
     "test": "mocha"
   },
   "author": "Carl Xiong",
