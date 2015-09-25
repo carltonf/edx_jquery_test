@@ -1,43 +1,27 @@
 const Browser = require('zombie');
 const assert = require('assert');
 
-const lab1URL = '/labs/lab1.html';
-const lab1AnsURL = 'labs/lab1.js';
-
 Browser.localhost('localhost', 8080);
 
 const browser = new Browser();
 
-before(function(){
-  // ensure page accessibility.
-  return browser.visit(lab1URL).then(function(){
-    browser.assert.success('should be successful');
-    browser.assert.text('h1', 'Contoso Web Developer Conference',
-                       'should see the title');
-    browser.assert.evaluate('jQuery.fn.jquery', '2.1.4',
-                           'jQuery should load successfully');
-    // all resources should load successfully, particularly lab1 answer code
-    browser.resources.forEach(resource => {
-      assert.equal(resource.response.status, 200, resource.response.url);
-    });
-    //// specificially fetch again.
-    //
-    // browser.fetch(lab1AnsURL).then(function(response){
-    //   assert.equal(response.status, 200);
-    //   done();
-    // });
-  });
-});
+const helpers = require('./helpers');
+
+before(helpers.pageAccessibilityBeforeAssert(browser));
+
+// see the labURL file for this value
+const initialCircleMax = 5;
 
 beforeEach(function(){
-  return browser.visit(lab1URL).then(function(){
+  return browser.visit(helpers.labURL).then(function(){
+    browser.assert.elements('.rating-circle', initialCircleMax);
     browser.assert.className('.rating-circle', 'rating-circle',
                             'default status should have no circles highlighted');
   });
 })
 
 
-describe('Lab1 Testing: ', function() {
+describe('Testing Lab1 functionality: ', function() {
   // NOTE fancy CSS selectors are nice to write, but the failure report might
   // not be very helpful. Be more verbose when writing such tests.
   var numOfCircles = 5,
