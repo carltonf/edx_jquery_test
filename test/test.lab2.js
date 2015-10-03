@@ -27,6 +27,7 @@ describe('Testing Lab2 functionality: ', function(){
 
   it(`*Repeatedly* set to the ${initialCircleMax} should work`, function(){
     updateMaxVALUE(initialCircleMax);
+    browser.assert.attribute('#rating-container', 'max-value', initialCircleMax);
     browser.assert.elements('.rating-circle', initialCircleMax);
   });
 
@@ -34,6 +35,7 @@ describe('Testing Lab2 functionality: ', function(){
     [6, 10].forEach(i => {
       it(`set max value to ${i} works.`, function(){
         updateMaxVALUE(i);
+        browser.assert.attribute('#rating-container', 'max-value', i);
         browser.assert.elements('.rating-circle', i);
       });
     })
@@ -43,6 +45,7 @@ describe('Testing Lab2 functionality: ', function(){
     [4, 1].forEach(i => {
       it(`set max value to ${i} works.`, function(){
         updateMaxVALUE(i);
+        browser.assert.attribute('#rating-container', 'max-value', i);
         browser.assert.elements('.rating-circle', i);
       });
     })
