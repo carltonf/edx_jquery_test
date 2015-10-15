@@ -6,14 +6,16 @@
   "directories": {
     "labs": "labs"
   },
+  "private": true,
   "scripts": {
-    "start": "http-server -c-1",
+    "start": "node-skewer ./",
     "test": "mocha"
   },
   "author": "Carl Xiong",
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.3.2",
+    "node-skewer": "carltonf/node-skewer",
     "zombie": "^4.1.0"
   }
 }
