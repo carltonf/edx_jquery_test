@@ -1,0 +1,44 @@
+This repo contain some tests for labs in [[https://www.edx.org/course/introduction-jquery-microsoft-dev208x][Introduction to jQuery]] on edx.
+
+*DISCLAIMER:* No answers are included.
+
+================
+
+It's for learning client-side testing. It's *DONE* and *ARCHIVED* and also
+*incomplete* actually.
+
+* Usage
+Make a link to or copy your answer javascript file in =labs/= using name
+=lab.js=.
+
+Run =npm test=. The test framework is =mocha=.
+
+* Status
+Tests for Lab1 and Lab2 are 
+
+** Lab1
+There is a tag "lab1", switching to it first before running tests.
+
+Tests using [[https://github.com/assaf/zombie][zombie]] are complete.
+
+There is also a incomplete in-page tests. It's not automatic enough, so it's
+abandoned in the middle.
+
+In retrospect, I think in-page tests are better for client-side. Automation can
+be achieved with by inspecting the page anyway.
+
+** Lab2
+For each "max-value", we really should rerun test for lab1. However, this
+requires heavy refactoring lab1 test code, so it's left undone.
+
+** Lab3
+The Ajax is where =zombie= starts acts different from normal browsers. There is
+some incompatibility with popular mock library =Sinnon.js=, whose fake server
+feature I plan to use so the tests can be conducted without needing the outside
+server. This did't work out.
+
+I think [[https://github.com/assaf/zombie/issues/417][XHR API ignores the async argument · Issue #417 · assaf/zombie]] is the
+main cause for the failure. However, I didn't have the time to dive deeper.
+
+So lab3 tests are not done at all, though there is a heavily commented test file
+for more details about my endeavor.
