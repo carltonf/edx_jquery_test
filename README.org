@@ -4,8 +4,7 @@ This repo contain some tests for labs in [[https://www.edx.org/course/introducti
 
 ================
 
-It's for learning client-side testing. It's *DONE* and *ARCHIVED* and also
-*incomplete* actually.
+It's for learning client-side testing. It's *ARCHIVED* and *INCOMPLETE*.
 
 * Usage
 Make a link to or copy your answer javascript file in =labs/= using name
